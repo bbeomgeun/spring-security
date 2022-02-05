@@ -1,10 +1,17 @@
 package com.security.practice.controller;
 
+import com.security.practice.model.User;
+import com.security.practice.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class IndexController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/")
     public String index() {
@@ -29,18 +36,22 @@ public class IndexController {
     }
 
     // 스프링 시큐리티가 해당 주소를 낚아챔 -> SecurityConfig 파일 생성 후 작동 안함.
-    @GetMapping("/login")
-    public String login() {
+    @GetMapping("/loginForm")
+    public String loginForm() {
         return "loginForm";
     }
 
-    @GetMapping("/join")
-    public String join() {
-        return "join";
+    @GetMapping("/joinForm")
+    public String joinForm() {
+        return "joinForm";
     }
 
-    @GetMapping("/joinProc")
-    public String joinProc() {
-        return "회원가입 완료!";
+    @PostMapping("/join")
+    public String join(User user) {
+        System.out.println(user);
+        user.setRole("ROLE_USER");
+        userRepository.save(user);
+        // 패스워드 암호화가 필요
+        return "join";
     }
 }

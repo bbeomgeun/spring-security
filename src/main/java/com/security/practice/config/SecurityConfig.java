@@ -20,6 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll() // 이외 요청은 권한 허용
                 .and()
                 .formLogin()
-                .loginPage("/login"); // 권한이 없는 페이지를 갈 때 login이 뜨게끔 login 페이지를 등록
+                .loginPage("/loginForm"); // 권한이 없는 페이지를 갈 때 login이 뜨게끔 login 페이지를 등록
     }
 }
