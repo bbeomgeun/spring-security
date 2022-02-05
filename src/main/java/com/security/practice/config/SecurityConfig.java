@@ -29,6 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll() // 이외 요청은 권한 허용
                 .and()
                 .formLogin()
-                .loginPage("/loginForm"); // 권한이 없는 페이지를 갈 때 login이 뜨게끔 login 페이지를 등록
+                .loginPage("/loginForm") // 권한이 없는 페이지를 갈 때 login이 뜨게끔 login 페이지를 등록
+                .loginProcessingUrl("/login") // login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행
+                // -> /login 매핑을 시큐리티가 대신 해줌
+                .defaultSuccessUrl("/");
     }
 }
