@@ -3,6 +3,7 @@ package com.security.practice.controller;
 import com.security.practice.model.User;
 import com.security.practice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,8 @@ public class IndexController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/")
     public String index() {
@@ -50,8 +53,11 @@ public class IndexController {
     public String join(User user) {
         System.out.println(user);
         user.setRole("ROLE_USER");
+        String rawPassword = user.getPassword();
+        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+        user.setPassword(encPassword);
         userRepository.save(user);
         // 패스워드 암호화가 필요
-        return "join";
+        return "redirect:/loginForm";
     }
 }
